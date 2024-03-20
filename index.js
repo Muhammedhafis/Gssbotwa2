@@ -196,7 +196,7 @@ gss.ev.on('messages.update', async chatUpdate => {
 	for (let i of kon) {
 	    list.push({
 	    	displayName: await gss.getName(i + '@s.whatsapp.net'),
-	    	vcard: `BEGIN:VCARD\nVERSION:3.0\nN:${await gss.getName(i + '@s.whatsapp.net')}\nFN:${await gss.getName(i + '@s.whatsapp.net')}\nitem1.TEL;waid=${i}:${i}\nitem1.X-ABLabel:Ponsel\nitem2.EMAIL;type=INTERNET:bsid4961@gmail.com\nitem2.X-ABLabel:Email\nEND:VCARD`
+	    	vcard: `BEGIN:VCARD\nVERSION:3.0\nN:${await gss.getName(i + '@s.whatsapp.net')}\nFN:${await gss.getName(i + '@s.whatsapp.net')}\nitem1.TEL;waid=${i}:${i}\nitem1.X-ABLabel:Phone\nEND:VCARD`
 	    })
 	}
 	gss.sendMessage(jid, { contacts: { displayName: `${list.length} Kontak`, contacts: list }, ...opts }, { quoted })
@@ -249,30 +249,6 @@ gss.ev.on('messages.update', async chatUpdate => {
 });
 
 
-const moment = require('moment-timezone');
-
-async function setBio() {
-    const date = new Date();
-    const options = {
-        timeZone: 'Asia/Kolkata',
-        hour12: true,
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit'
-    };
-    const timeString = date.toLocaleTimeString('en-IN', options);
-
-    const uptimeHours = Math.floor(process.uptime() / 3600);
-    const uptimeMinutes = Math.floor((process.uptime() % 3600) / 60);
-    const uptimeSeconds = Math.floor(process.uptime() % 60);
-
-    const status = `🗓 ${timeString} Auto Bio By Gss_Botwa\n`;
-    if (process.env.AUTO_ABOUT || 'true' === 'true') await gss.updateProfileStatus(status);
-    return "Done";
-}
-
-setInterval(setBio, 60000);
-
     gss.ev.on('creds.update', saveCreds)
 
     // Add Other
@@ -281,7 +257,7 @@ setInterval(setBio, 60000);
      * 
      * @param {*} jid 
      * @param {*} name 
-     * @param [*] values 
+     * @param {*} values 
      * @returns 
      */
     gss.sendPoll = (jid, name = '', values = [], selectableCount = 1) => { return gss.sendMessage(jid, { poll: { name, values, selectableCount }}) }
